@@ -1,27 +1,26 @@
-import React, { useState } from "react";
-import { BiSolidPhoneCall } from "react-icons/bi";
-import { MdCallEnd } from "react-icons/md";
-import { AiFillHeart } from "react-icons/ai";
-import { BiSolidContact } from "react-icons/bi";
-import { PiClockCounterClockwiseBold } from "react-icons/pi";
-import { AiFillLock } from "react-icons/ai";
+import React, {useContext, useState} from "react";
 import { BiArrowBack } from "react-icons/bi";
-import { BsPersonFillAdd } from "react-icons/bs";
 import SliderIcons from "@/app/componets/SliderIcons";
+import Call from "@/app/componets/Call";
+import CallDeclined from "@/app/componets/CallDeclined";
+import PhoneBook from "@/app/componets/PhoneBook";
+import Favourite from "@/app/componets/Favourite";
+import Recents from "@/app/componets/Recents";
+import AddContact from "@/app/componets/AddContact";
+import SecretContact from "@/app/componets/SecretContact";
+import {ShowComContext} from "@/app/context/ShowCom";
 
 const Dialer = () => {
   const [cal, setCal] = useState("");
   const [result, setResult] = useState("");
+const counterState = useContext(ShowComContext);
+console.log("Context", counterState)
 
   const updateCal = (e) => {
     setCal(cal + e.target.name); // Use '+' to concatenate strings
   };
 
-  const showCom = () => {
-    {
-      console.log("calling");
-    }
-  };
+
 
   const clear = () => {
     setCal("");
@@ -43,14 +42,17 @@ const Dialer = () => {
             Phone Pad
           </div>
           <div class="pt-16 p-5 pb-0 text-salate-200 text-right text-3xl bg-[#fff]">
-            {cal || 0}
+            {cal || 0} {counterState.context}
           </div>
           <div class="p-5 text-white text-right text-3xl bg-[#463636]">
             <span class="text-orange-500">{result || ""}</span>
           </div>
+          <div className="scrollicons hidden show">
             <SliderIcons/>
+          </div>
 
-          <div class="flex items-stretch bg-[#463636] h-24">
+
+          <div class="flex hideTopline items-stretch bg-[#463636] custom-display h-24">
             <div class="flex-1 px-2 py-2 justify-center flex items-center text-white text-2xl font-semibold">
               <button
                   class="rounded h-20 w-20 flex text-black items-center bg-white text-salate justify-center shadow-lg hover:border-gray-500 focus:outline-none"
@@ -61,33 +63,15 @@ const Dialer = () => {
             </div>
 
             <div class="flex-1 px-2 py-2 justify-center flex items-center text-white text-2xl font-semibold">
-              <button
-                  class="rounded h-20 w-20 flex items-center text-black  bg-white justify-center shadow-lg hover:border-gray-500 focus:outline-none"
-                  name="("
-                  onClick={showCom}
-              >
-                <BiSolidPhoneCall color="green" size={32} />
-              </button>
+            <Call/>
             </div>
 
             <div class="flex-1 px-2 py-2 justify-center flex items-center text-white text-2xl font-semibold">
-              <button
-                  class="rounded h-20 w-20 flex items-center text-black  bg-white justify-center shadow-lg hover:border-gray-500 focus:outline-none"
-                  name=")"
-                  onClick={updateCal}
-              >
-                <MdCallEnd color="red" size={32} />
-              </button>
+              <CallDeclined/>
             </div>
 
             <div class="flex-1 px-2 py-2 justify-center flex items-center text-white text-2xl font-semibold">
-              <button
-                  class="rounded h-20 w-20 flex items-center text-black bg-white justify-center shadow-lg hover:border-gray-500 focus:outline-none"
-                  name="/"
-                  onClick={updateCal}
-              >
-                <BiSolidContact color="black" size={32} />
-              </button>
+             <PhoneBook/>
             </div>
           </div>
 
@@ -122,14 +106,9 @@ const Dialer = () => {
               </button>
             </div>
 
-            <div class="flex-1 px-2 py-2 justify-center flex items-center text-white text-2xl font-semibold">
-              <button
-                  class="rounded h-20 w-20 flex  text-black items-center bg-white justify-center shadow-lg hover:border-gray-500 focus:outline-none"
-                  name="*"
-                  onClick={updateCal}
-              >
-                <AiFillHeart color="canary" size={32} />
-              </button>
+            <div class="flex-1 hideTopline px-2 py-2 justify-center flex items-center text-white text-2xl font-semibold">
+
+              <Favourite/>
             </div>
           </div>
 
@@ -164,13 +143,13 @@ const Dialer = () => {
               </button>
             </div>
 
-            <div class="flex-1 px-2 py-2 justify-center flex items-center text-white text-2xl font-semibold">
+            <div class="flex-1 px-2 hideTopline py-2 justify-center flex items-center text-white text-2xl font-semibold">
               <button
-                  class="rounded h-20 w-20 flex items-center text-black bg-white justify-center shadow-lg hover:border-gray-500 focus:outline-none"
+                  class="rounded  h-20 w-20 flex items-center text-black bg-white justify-center shadow-lg hover:border-gray-500 focus:outline-none"
                   name="-"
                   onClick={updateCal}
               >
-                <PiClockCounterClockwiseBold size={32} />
+                  <Recents/>
               </button>
             </div>
           </div>
@@ -206,14 +185,8 @@ const Dialer = () => {
               </button>
             </div>
 
-            <div class="flex-1 px-2 py-2 justify-center flex items-center text-white text-2xl font-semibold">
-              <button
-                  class="rounded h-20 w-20 flex text-black items-center bg-white justify-center shadow-lg hover:border-gray-500 focus:outline-none"
-                  name="+"
-                  onClick={updateCal}
-              >
-                <BsPersonFillAdd size={32} />
-              </button>
+            <div class="flex-1 hideTopline px-2 py-2 justify-center flex items-center text-white text-2xl font-semibold">
+             <AddContact/>
             </div>
           </div>
 
@@ -248,13 +221,8 @@ const Dialer = () => {
               </button>
             </div>
 
-            <div class="flex-1 px-2 py-2 justify-center flex items-center text-white text-2xl font-semibold">
-              <button
-                  class="rounded h-20 w-20 flex items-center text-black bg-white justify-center shadow-lg hover:border-gray-500 focus:outline-none"
-                  onClick={results}
-              >
-                <AiFillLock size={32} />
-              </button>
+            <div class="flex-1 px-2 hideTopline py-2 justify-center flex items-center text-white text-2xl font-semibold">
+                <SecretContact/>
             </div>
           </div>
         </div>
